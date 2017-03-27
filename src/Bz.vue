@@ -1,7 +1,8 @@
 <template>
   <div id="markhere">
     <a @click="hidePopup" href="javascript:;" class="image-popup-delete-btn" :style="{display:display_close_icon}">
-      <img src="../assets/delete-btn.svg"></a>
+      <img src="../assets/delete-btn.svg">
+    </a>
     <div class="ui basic modal image-popup">
       <div class="image content" style="justify-content:center;">
         <img class="image" :src="img_path">
@@ -13,17 +14,18 @@
 <script>
   import $ from 'jquery'
   export default {
-    props: ['img_path', 'show_image_popup'],
+    props: ['value'],
     components: {
     },
     watch: {
-      show_image_popup: function () {
-        if (this.show_image_popup) {
+      img_path: function () {
+        if (this.img_path !== '') {
           this.showImagePopup()
         }
       }
     },
     computed: {
+      img_path () { return this.value },
       display_close_icon: function () {
         return this.hide_close_icon ? 'none' : 'block'
       }
@@ -57,7 +59,7 @@
               // 隐藏关闭按钮
               self.hideCloseIcon()
               // 发送事件, 要求父组件修改状态
-              self.$emit('hideImagePopup')
+              self.$emit('input', '')
             }})
           .modal('show')
       },

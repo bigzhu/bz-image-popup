@@ -44,6 +44,9 @@
       refreshPopup: function () {
         if (this.img_path !== '') {
           $($('.image-popup')[0]).modal('refresh')
+          setTimeout(function () {
+            $($('.image-popup')[0]).modal('refresh')
+          }, 500)
         }
       },
       hidePopup: function () {

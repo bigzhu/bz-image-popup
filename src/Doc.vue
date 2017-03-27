@@ -1,25 +1,36 @@
 <template>
   <div>
-    <a @click="show_image_popup=true" href="javascript:;">点击显示预览</a>
-    <bz v-bind:img_path="img_path" :show_image_popup="show_image_popup" v-on:hideImagePopup="toggleImagePopup"></bz>
+    <doc :name="name"
+         :desc="desc"
+         :parm_desc="parm_desc"
+         :parms="parms"
+         :code="code"
+    >
+      <img src="http://wx4.sinaimg.cn/orj360/006vNY3Pgy1fe1a6g1jm2j30m80etadw.jpg" @click="img_path='http://wx4.sinaimg.cn/large/006vNY3Pgy1fe1a6g1jm2j30m80etadw.jpg'" title="点击显示预览" alt=""/>
+    </doc>
+    <bz v-model="img_path"></bz>
   </div>
 </template>
+
 <script>
   // import toastr from 'toastr'
   import Bz from './Bz'
+  import Doc from 'bz-doc'
   export default {
     components: {
-      Bz
+      Bz,
+      Doc
     },
     data: function () {
       return {
-        img_path: 'http://wx1.sinaimg.cn/large/bd2370f9gy1fe1del7g4zj20mg0exae5.jpg',
-        show_image_popup: false
-      }
-    },
-    methods: {
-      toggleImagePopup: function () {
-        this.show_image_popup = !(this.show_image_popup)
+        name: 'bz-image-popup',
+        desc: '弹出预览',
+        parms: [
+          {parm: 'img_path', desc: '大图url'}
+        ],
+        parm_desc: ``,
+        code: `<bz v-model="img_path"></bz>`,
+        img_path: ''
       }
     }
   }

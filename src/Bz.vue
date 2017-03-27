@@ -5,7 +5,7 @@
     </a>
     <div class="ui basic modal image-popup">
       <div class="image content" style="justify-content:center;">
-        <img class="image" :src="img_path">
+        <img @load="refreshPopup" :src="img_path" class="image">
       </div>
     </div>
   </div>
@@ -41,6 +41,11 @@
       })
     },
     methods: {
+      refreshPopup: function () {
+        if (this.img_path !== '') {
+          $($('.image-popup')[0]).modal('refresh')
+        }
+      },
       hidePopup: function () {
         this.hideImagePopup()
       },
@@ -56,9 +61,6 @@
             onShow: function () {
               // 显示关闭按钮
               self.showCloseIcon()
-              setTimeout(function () {
-                a.modal('refresh')
-              }, 2000)
             },
             onHide: function () {
               // 隐藏关闭按钮

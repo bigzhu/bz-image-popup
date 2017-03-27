@@ -5,7 +5,7 @@
     </a>
     <div class="ui basic modal image-popup">
       <div class="image content" style="justify-content:center;">
-        <img @load="refreshPopup" :src="img_path" class="image">
+        <img @load="setLoad" :src="img_path" class="image">
       </div>
     </div>
   </div>
@@ -18,8 +18,8 @@
     components: {
     },
     watch: {
-      img_path: function () {
-        if (this.img_path !== '') {
+      loaded: function () {
+        if (this.loaded) {
           this.showImagePopup()
         }
       }
@@ -32,6 +32,7 @@
     },
     data: function () {
       return {
+        loaded: false,
         hide_close_icon: true
       }
     },
@@ -41,12 +42,9 @@
       })
     },
     methods: {
-      refreshPopup: function () {
+      setLoad: function () {
         if (this.img_path !== '') {
-          $($('.image-popup')[0]).modal('refresh')
-          setTimeout(function () {
-            $($('.image-popup')[0]).modal('refresh')
-          }, 500)
+          this.loaded = true
         }
       },
       hidePopup: function () {
@@ -68,6 +66,7 @@
             onHide: function () {
               // 隐藏关闭按钮
               self.hideCloseIcon()
+              self.loaded = false
               // 发送事件, 要求父组件修改状态
               self.$emit('input', '')
             }})

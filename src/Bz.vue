@@ -5,7 +5,7 @@
     </a>
     <div class="ui basic modal image-popup">
       <div class="image content" style="justify-content:center;">
-        <img class="image" :src="img_path" onload="function () {window.alert('hi')}">
+        <img class="image" :src="img_path">
       </div>
     </div>
   </div>
@@ -16,6 +16,13 @@
   export default {
     props: ['value'],
     components: {
+    },
+    watch: {
+      img_path: function () {
+        if (this.img_path !== '') {
+          this.showImagePopup()
+        }
+      }
     },
     computed: {
       img_path () { return this.value },
@@ -43,19 +50,23 @@
           if ($('.image-popup').length > 1) { // 如果有多个, 那么要删掉之前的弹出
             $($('.image-popup')[0]).remove()
           }
-          $($('.image-popup')[0])
-            .modal({
-              onShow: function () {
-                // 显示关闭按钮
-                self.showCloseIcon()
-              },
-              onHide: function () {
-                // 隐藏关闭按钮
-                self.hideCloseIcon()
-                // 发送事件, 要求父组件修改状态
-                self.$emit('input', '')
-              }})
-            .modal('show')
+          let a = $($('.image-popup')[0])
+          a.modal({
+            observeChanges: true,
+            onShow: function () {
+              // 显示关闭按钮
+              self.showCloseIcon()
+              setTimeout(function () {
+                a.modal('refresh')
+              }, 2000)
+            },
+            onHide: function () {
+              // 隐藏关闭按钮
+              self.hideCloseIcon()
+              // 发送事件, 要求父组件修改状态
+              self.$emit('input', '')
+            }})
+          a.modal('show')
         }
       },
       hideImagePopup: function () {

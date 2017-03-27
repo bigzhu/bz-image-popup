@@ -56,21 +56,21 @@
           if ($('.image-popup').length > 1) { // 如果有多个, 那么要删掉之前的弹出
             $($('.image-popup')[0]).remove()
           }
-          let a = $($('.image-popup')[0])
-          a.modal({
-            observeChanges: true,
-            onShow: function () {
-              // 显示关闭按钮
-              self.showCloseIcon()
-            },
-            onHide: function () {
-              // 隐藏关闭按钮
-              self.hideCloseIcon()
-              self.loaded = false
-              // 发送事件, 要求父组件修改状态
-              self.$emit('input', '')
-            }})
-          a.modal('show')
+          $($('.image-popup')[0])
+            .modal({
+              observeChanges: true,
+              onShow: function () {
+                // 显示关闭按钮
+                self.showCloseIcon()
+              },
+              onHide: function () {
+                // 隐藏关闭按钮
+                self.hideCloseIcon()
+                self.loaded = false
+                // 发送事件, 要求父组件修改状态
+                self.$emit('input', '')
+              }})
+            .modal('show')
         }
       },
       hideImagePopup: function () {

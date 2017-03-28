@@ -1,7 +1,7 @@
 <template>
   <div id="markhere">
     <a @click="hidePopup" href="javascript:;" class="image-popup-delete-btn" :style="{display:display_close_icon}">
-      <img src="../assets/delete-btn.svg">
+      <img src="./assets/delete-btn.svg">
     </a>
     <div class="ui basic modal image-popup">
       <div class="image content" style="justify-content:center;">

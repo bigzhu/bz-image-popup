@@ -1,6 +1,6 @@
-# bz-base
+# bz-image-popup
 
-> bz-base
+> bz-image-popup
 
 ## Build Setup
 

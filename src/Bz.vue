@@ -25,41 +25,37 @@
     },
     data: function () {
       return {
-        hide_close_icon: true
+        hide_close_icon: true,
+        popup: null
       }
     },
     mounted: function () {
       this.$nextTick(function () {
         // code that assumes this.$el is in-document
+        this.popup = $(this.$el).find('.image-popup')
+        let self = this
+        this.popup.modal(
+          {
+            onShow: function () {
+              // 显示关闭按钮
+              self.showCloseIcon()
+            },
+            onHide: function () {
+              // 隐藏关闭按钮
+              self.hideCloseIcon()
+              // 发送事件, 要求父组件修改状态
+              self.$emit('input', '')
+            }})
       })
     },
     methods: {
       hidePopup: function () {
-        this.hideImagePopup()
+        this.popup.modal('hide')
       },
       showImagePopup: function () {
-        let self = this
         if (this.img_path !== '') {
-          if ($('.image-popup').length > 1) { // 如果有多个, 那么要删掉之前的弹出
-            $($('.image-popup')[0]).remove()
-          }
-          $($('.image-popup')[0])
-            .modal({
-              onShow: function () {
-                // 显示关闭按钮
-                self.showCloseIcon()
-              },
-              onHide: function () {
-                // 隐藏关闭按钮
-                self.hideCloseIcon()
-                // 发送事件, 要求父组件修改状态
-                self.$emit('input', '')
-              }})
-            .modal('show')
+          this.popup.modal('show')
         }
-      },
-      hideImagePopup: function () {
-        $($('.image-popup')[0]).modal('hide')
       },
       showCloseIcon: function () {
         this.hide_close_icon = false

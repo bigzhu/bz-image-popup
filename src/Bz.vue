@@ -5,7 +5,7 @@
     </a>
     <div class="ui basic modal image-popup">
       <div class="image content" style="justify-content:center;">
-        <img @load="setLoad" :src="img_path" class="image">
+        <img @load="showImagePopup" :src="img_path" class="image">
       </div>
     </div>
   </div>
@@ -17,13 +17,6 @@
     props: ['value'],
     components: {
     },
-    watch: {
-      loaded: function () {
-        if (this.loaded) {
-          this.showImagePopup()
-        }
-      }
-    },
     computed: {
       img_path () { return this.value },
       display_close_icon: function () {
@@ -32,7 +25,6 @@
     },
     data: function () {
       return {
-        loaded: false,
         hide_close_icon: true
       }
     },
@@ -42,11 +34,6 @@
       })
     },
     methods: {
-      setLoad: function () {
-        if (this.img_path !== '') {
-          this.loaded = true
-        }
-      },
       hidePopup: function () {
         this.hideImagePopup()
       },
@@ -65,7 +52,6 @@
               onHide: function () {
                 // 隐藏关闭按钮
                 self.hideCloseIcon()
-                self.loaded = false
                 // 发送事件, 要求父组件修改状态
                 self.$emit('input', '')
               }})

@@ -1,5 +1,5 @@
 <template>
-  <div id="markhere">
+  <div>
     <a @click="hidePopup" href="javascript:;" class="image-popup-delete-btn" :style="{display:display_close_icon}">
       <img src="./assets/delete-btn.svg">
     </a>
@@ -32,7 +32,7 @@
     mounted: function () {
       this.$nextTick(function () {
         // code that assumes this.$el is in-document
-        this.popup = $(this.$el).find('.image-popup')
+        this.popup = $(this.$el.getElementsByClassName('image-popup')[0])
         let self = this
         this.popup.modal(
           {

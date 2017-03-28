@@ -58,7 +58,6 @@
           }
           $($('.image-popup')[0])
             .modal({
-              observeChanges: true,
               onShow: function () {
                 // 显示关闭按钮
                 self.showCloseIcon()

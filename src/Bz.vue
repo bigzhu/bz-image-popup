@@ -5,7 +5,7 @@
     </a>
     <div class="ui basic modal image-popup">
       <div class="image content" style="justify-content:center;">
-        <img @load="setLoad" :src="img_path" class="image">
+        <img @load="showImagePopup" :src="img_path" class="image">
       </div>
     </div>
   </div>
@@ -17,13 +17,6 @@
     props: ['value'],
     components: {
     },
-    watch: {
-      loaded: function () {
-        if (this.loaded) {
-          this.showImagePopup()
-        }
-      }
-    },
     computed: {
       img_path () { return this.value },
       display_close_icon: function () {
@@ -32,49 +25,37 @@
     },
     data: function () {
       return {
-        loaded: false,
-        hide_close_icon: true
+        hide_close_icon: true,
+        popup: null
       }
     },
     mounted: function () {
       this.$nextTick(function () {
         // code that assumes this.$el is in-document
+        this.popup = $(this.$el).find('.image-popup')
+        let self = this
+        this.popup.modal(
+          {
+            onShow: function () {
+              // 显示关闭按钮
+              self.showCloseIcon()
+            },
+            onHide: function () {
+              // 隐藏关闭按钮
+              self.hideCloseIcon()
+              // 发送事件, 要求父组件修改状态
+              self.$emit('input', '')
+            }})
       })
     },
     methods: {
-      setLoad: function () {
-        if (this.img_path !== '') {
-          this.loaded = true
-        }
-      },
       hidePopup: function () {
-        this.hideImagePopup()
+        this.popup.modal('hide')
       },
       showImagePopup: function () {
-        let self = this
         if (this.img_path !== '') {
-          if ($('.image-popup').length > 1) { // 如果有多个, 那么要删掉之前的弹出
-            $($('.image-popup')[0]).remove()
-          }
-          $($('.image-popup')[0])
-            .modal({
-              observeChanges: true,
-              onShow: function () {
-                // 显示关闭按钮
-                self.showCloseIcon()
-              },
-              onHide: function () {
-                // 隐藏关闭按钮
-                self.hideCloseIcon()
-                self.loaded = false
-                // 发送事件, 要求父组件修改状态
-                self.$emit('input', '')
-              }})
-            .modal('show')
+          this.popup.modal('show')
         }
-      },
-      hideImagePopup: function () {
-        $($('.image-popup')[0]).modal('hide')
       },
       showCloseIcon: function () {
         this.hide_close_icon = false
